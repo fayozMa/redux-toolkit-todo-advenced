@@ -10,6 +10,12 @@
   .site-container{
     @apply max-w-7xl mx-auto w-full
   }
+  .auth-left{
+    @apply bg-[url('https://picsum.photos/1000/1200')] bg-center bg-cover bg-no-repeat lg:block md:hidden
+  }
+  .auth-right {
+    @apply bg-[url('https://picsum.photos/1000/1200')] bg-center bg-cover bg-no-repeat lg:bg-none grid place-items-center min-h-screen p-4
+  }
 }
 #root{
   @apply flex flex-col

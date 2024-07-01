@@ -19,16 +19,13 @@ function Register() {
   const { registerWithEmail, isPending } = useRegister();
   useEffect(() => {
     if (userData) {
-      registerWithEmail(
-        userData.email,
-        userData.password,
-        userData.displayName,
-        userData.photoURL
-      );
+      registerWithEmail(userData);
     }
   }, [userData]);
   return (
-    <div className="min-h-screen grid place-items-center p-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 w-full min-h-screen">
+      <div className="auth-left"></div>
+      <div className="auth-right">
       <Form
         method="post"
         className="w-96 p-6 border border-gray-500 rounded-lg"
@@ -66,6 +63,7 @@ function Register() {
           </Link>
         </p>
       </Form>
+      </div>
     </div>
   );
 }

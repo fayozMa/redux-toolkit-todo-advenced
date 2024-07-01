@@ -18,7 +18,6 @@ function Navbar() {
       toast.success("See you soon !");
       dispatch(logout())
     } catch (error) {
-      toast.error(error.message);
     }
   };
   const handleTheme = () => {
@@ -92,7 +91,7 @@ function Navbar() {
           <p className="">{user.displayName}</p>
           <div className="avatar">
             <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-              <img src={user.photoURL} />
+              <img src={user.photoURL ? user.photoURL : `https://api.dicebear.com/9.x/initials/svg?seed=${user.displayName}`} />
             </div>
           </div>
           <button onClick={handleOut} className=" btn btn-primary">

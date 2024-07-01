@@ -10,13 +10,13 @@ const useLogin = () => {
   const dispatch = useDispatch();
   const signInWithEmail = async (email, password) => {
     setIsPending(true);
-    try {
-      const userCredential = signInWithEmailAndPassword(auth, email, password);
+    try{
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       dispatch(login(user));
       toast.success("Welcome back");
       setIsPending(false);
-    } catch (error) {
+    }catch(error){
       const errorMessage = error.message;
       toast.error(errorMessage);
       setIsPending(false);

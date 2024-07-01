@@ -15,7 +15,7 @@ export const action = async ({ request }) => {
   let password = formData.get("password");
   return { email, password };
 };
-function Register() {
+function Login() {
   const userData = useActionData();
   const { signInWithEmail, isPending } = useLogin();
   useEffect(() => {
@@ -24,7 +24,9 @@ function Register() {
     }
   }, [userData]);
   return (
-    <div className="min-h-screen grid place-items-center p-4">
+    <div className="grid grid-cols-1 lg:grid-cols-2 w-full min-h-screen">
+      <div className="auth-left"></div>
+      <div className="auth-right">
       <Form
         method="post"
         className="w-96 p-6 border border-gray-500 rounded-lg"
@@ -55,8 +57,9 @@ function Register() {
           </Link>
         </p>
       </Form>
+      </div>
     </div>
   );
 }
 
-export default Register;
+export default Login;
