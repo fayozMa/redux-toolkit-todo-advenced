@@ -21,7 +21,7 @@ function Navbar() {
     }
   };
   const handleTheme = () => {
-    const newTheme = theme == "retro" ? "dark" : "retro";
+    const newTheme = theme == "retro" ? "coffee" : "retro";
     setTheme(newTheme);
   };
   useEffect(() => {
@@ -79,7 +79,7 @@ function Navbar() {
             className="theme-controller"
             value="synthwave"
             onClick={handleTheme}
-            checked={theme == "dark"}
+            checked={theme == "coffee"}
             readOnly
           />
           {/* moon icon */}
