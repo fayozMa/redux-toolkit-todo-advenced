@@ -1,11 +1,12 @@
 //icons
 import { FcGoogle } from "react-icons/fc";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 //components
 import { Form, useActionData, Link } from "react-router-dom";
 import { FormInput } from "../components";
 import { useRegister } from "../hooks/useRegister";
+import {useLoginGoogle} from "../hooks/useLoginGoogle"
 export const action = async ({ request }) => {
   let formData = await request.formData();
   let email = formData.get("email");
@@ -17,9 +18,38 @@ export const action = async ({ request }) => {
 function Register() {
   const userData = useActionData();
   const { registerWithEmail, isPending } = useRegister();
+  const {signUpWithGoogle} = useLoginGoogle()
+  const [error,setError] = useState({
+    email:"",
+    password:"",
+    displayName:"",
+    photoURL:""
+  })
   useEffect(() => {
-    if (userData) {
-      registerWithEmail(userData);
+    if(userData){
+      if (userData.email.trim() && userData.password.trim()) {
+        registerWithEmail(userData);
+      } 
+      if (!userData.email.trim()){
+        setError((prev)=>{
+          return{...prev,email:"input-error"}
+        })
+      } 
+      if (!userData.password.trim()){
+        setError((prev)=>{
+          return{...prev,password:"input-error"}
+        })
+      }
+      if (!userData.photoURL.trim()){
+        setError((prev)=>{
+          return{...prev,photoURL:"input-error"}
+        })
+      }
+      if (!userData.displayName.trim()){
+        setError((prev)=>{
+          return{...prev,displayName:"input-error"}
+        })
+      }
     }
   }, [userData]);
   return (
@@ -31,10 +61,10 @@ function Register() {
         className="w-96 p-6 border border-gray-500 rounded-lg"
       >
         <h1 className="text-3xl font-bold text-center mb-4">Register</h1>
-        <FormInput type="text" name="displayName" labelText="Name:" />
-        <FormInput type="photoURL" name="photoURL" labelText="Photo URL:" />
-        <FormInput type="email" name="email" labelText="Email:" />
-        <FormInput type="password" name="password" labelText="Password:" />
+        <FormInput type="text" name="displayName" labelText="Name:" status={error.displayName}/>
+        <FormInput type="photoURL" name="photoURL" labelText="Photo URL:" status={error.photoURL}/>
+        <FormInput type="email" name="email" labelText="Email:" status={error.email}/>
+        <FormInput type="password" name="password" labelText="Password:" status={error.password}/>
         <div>
           <div className="mt-6">
             {!isPending && (
@@ -52,7 +82,7 @@ function Register() {
         <p className="text-center mt-2 decoration decoration-dashed text-lg">
           OR
         </p>
-        <button type="button" className="btn btn-block mt-2">
+        <button type="button" className="btn btn-block mt-2" onClick={signUpWithGoogle}>
           <FcGoogle className="w-5 h-5" />
           Continue with Google
         </button>
