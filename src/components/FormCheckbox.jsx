@@ -4,6 +4,7 @@ function FormCheckbox({name,labelText}) {
       <label className="cursor-pointer label flex gap-2">
         <span className="text-lg font-mono">{labelText}</span>
         <input
+          name={name}
           type="checkbox"
           className="checkbox checkbox-success"
         />
@@ -11,5 +12,4 @@ function FormCheckbox({name,labelText}) {
     </div>
   );
 }
-
 export default FormCheckbox;

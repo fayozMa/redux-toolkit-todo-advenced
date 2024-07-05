@@ -14,7 +14,7 @@ export const action = async ({ request }) => {
 
 function Home() {
   const { user } = useSelector((state) => state.user);
-  const { addNewDoc, deleteDocument } = useFirestore();
+  const { addNewDoc} = useFirestore();
   const { data: todos } = useCollection(
     "todos",
     ["uid", "==", user.uid],
@@ -25,6 +25,7 @@ function Home() {
     if (userData) {
       const newDoc = {
         ...userData,
+        completed: userData.completed == "on" ? true : false,
         uid: user.uid,
       };
       addNewDoc(newDoc);
