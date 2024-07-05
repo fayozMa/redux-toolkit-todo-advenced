@@ -21,7 +21,7 @@ function Navbar() {
     }
   };
   const handleTheme = () => {
-    const newTheme = theme == "retro" ? "coffee" : "retro";
+    const newTheme = theme == "retro" ? "dracula" : "retro";
     setTheme(newTheme);
   };
   useEffect(() => {
@@ -73,20 +73,6 @@ function Navbar() {
         </ul>
       </div>
       <div className="navbar-end flex gap-10 items-center">
-        <label className="swap swap-rotate">
-          <input
-            type="checkbox"
-            className="theme-controller"
-            value="synthwave"
-            onClick={handleTheme}
-            checked={theme == "coffee"}
-            readOnly
-          />
-          {/* moon icon */}
-          <IoIosMoon className="swap-off fill-current w-8 h-8" />
-          {/* sun icon */}
-          <IoIosSunny className="swap-on fill-current w-8 h-8" />
-        </label>
         <div className="flex items-center gap-4">
           <p className="">{user.displayName}</p>
           <div className="avatar">
@@ -94,10 +80,24 @@ function Navbar() {
               <img src={user.photoURL ? user.photoURL : `https://api.dicebear.com/9.x/initials/svg?seed=${user.displayName}`} />
             </div>
           </div>
-          <button onClick={handleOut} className=" btn btn-primary">
+        </div>
+        <label className="swap swap-rotate">
+          <input
+            type="checkbox"
+            className="theme-controller"
+            value="synthwave"
+            onClick={handleTheme}
+            checked={theme == "dracula"}
+            readOnly
+          />
+          {/* moon icon */}
+          <IoIosMoon className="swap-off fill-current w-8 h-8" />
+          {/* sun icon */}
+          <IoIosSunny className="swap-on fill-current w-8 h-8" />
+        </label>
+          <button onClick={handleOut} className=" btn bg-blue-500">
             Log out
           </button>
-        </div>
       </div>
     </div>
   );

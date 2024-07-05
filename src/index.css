@@ -16,6 +16,9 @@
   .auth-right {
     @apply bg-[url('https://picsum.photos/1000/1200')] bg-center bg-cover bg-no-repeat lg:bg-none grid place-items-center min-h-screen p-4
   }
+  .align-elements {
+    @apply max-w-6xl mx-auto px-4
+  }
 }
 #root{
   @apply flex flex-col

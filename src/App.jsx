@@ -10,6 +10,7 @@ import MainLayout from "./layout/MainLayout";
 //loaders
 import {action as LoginAction} from "./pages/Login"
 import {action as RegisterAction} from "./pages/Register"
+import {action as HomeAction} from "./pages/Home"
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { useSelector , useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -31,6 +32,7 @@ function App() {
         {
           index: true,
           element: <Home />,
+          action:HomeAction
         },
       ],
     },
@@ -47,7 +49,9 @@ function App() {
   ]);
   useEffect(()=> {
     onAuthStateChanged(auth,(user)=> {
-      dispatch(login(user))
+      if(user?.displayName && user?.photoURL){
+        dispatch(login(user))
+      }
       dispatch(isAuthChange())
     })
   },[])

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-
+import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyAz-Mz4lAzbWw6mxIXZkGkGjMQEJcXgaOw",
   authDomain: "todolist-ac4b8.firebaseapp.com",
@@ -14,3 +14,6 @@ const app = initializeApp(firebaseConfig);
 
 // auth 
 export const auth = getAuth(app)
+
+// Initialize Cloud Firestore and get reference to the service
+export const db = getFirestore(app)

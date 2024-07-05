@@ -7,8 +7,11 @@ import { FormInput } from "../components";
 
 //hooks
 import { useLogin } from "../hooks/useLogin";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
 import { useEffect, useState } from "react";
 import {useLoginGoogle} from "../hooks/useLoginGoogle"
+import toast from "react-hot-toast";
 export const action = async ({ request }) => {
   let formData = await request.formData();
   let email = formData.get("email");
@@ -16,6 +19,7 @@ export const action = async ({ request }) => {
   return { email, password };
 };
 function Login() {
+  const [forgetPassword , setFergotPassword] = useState(true)
   const userData = useActionData();
   const { signInWithEmail, isPending } = useLogin();
   const {signUpWithGoogle} = useLoginGoogle()
@@ -25,7 +29,7 @@ function Login() {
   })
   useEffect(() => {
     if(userData){
-      if (userData.email.trim() && userData.password.trim()) {
+      if (userData.email?.trim() && userData.password?.trim()) {
         signInWithEmail(userData.email,userData.password);
       } 
       if (!userData.email.trim()){
@@ -33,9 +37,20 @@ function Login() {
           return{...prev,email:"input-error"}
         })
       } 
-      if (!userData.password.trim()){
+      if (!userData.password?.trim()){
         setError((prev)=>{
           return{...prev,password:"input-error"}
+        })
+      }
+      if(!forgetPassword && userData){
+        sendPasswordResetEmail(auth,userData.email)
+        .then(()=>{
+          toast.success("We send email to this address. You can check it")
+          forgetPassword(true)
+        })
+        .catch((error)=>{
+          errorMessage = error.message
+          toast.error(errorMessage)
         })
       }
     }
@@ -50,14 +65,14 @@ function Login() {
       >
         <h1 className="text-3xl font-bold text-center mb-4">Login</h1>
         <FormInput type="email" name="email" labelText="Email:" status={error.email}/>
-        <FormInput type="password" name="password" labelText="Password: " status={error.password}/>
+        {forgetPassword && <FormInput type="password" name="password" labelText="Password: " status={error.password}/>}
         <div className="mt-6">
-          {!isPending && <button className="btn btn-secondary btn-block">Login</button>}
+          {!isPending && <button className="btn btn-secondary btn-block">{forgetPassword ? "Login" : "Send email"}</button>}
         </div>
         <div className="mt-6">
           {isPending && <button disabled className="btn btn-secondary btn-block">Loading...</button>}
         </div>
-        <p className="text-center mt-2 decoration decoration-dashed text-lg">
+        <p className="text-center text-lg">
           OR
         </p>
         <button
@@ -68,6 +83,7 @@ function Login() {
           <FcGoogle className="w-5 h-5" />
           Continue with Google
         </button>
+        <button onClick={()=>setFergotPassword(!forgetPassword)} type="button" className="btn btn-sm btn-secondary mt-4">Forget password ?</button>
         <p className="text-center mt-7">
           Don't have any account?{" "}
           <Link to="/register" className="hover:underline">
