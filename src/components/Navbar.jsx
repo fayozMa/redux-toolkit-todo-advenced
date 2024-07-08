@@ -5,6 +5,7 @@ import { signOut } from "firebase/auth";
 import { useSelector ,useDispatch} from "react-redux";
 import { auth } from "../firebase/firebaseConfig";
 import toast from "react-hot-toast";
+import {logout} from "../app/userSlice"
 function themeFromLocalStorage() {
   return localStorage.getItem("theme") || "retro";
 }
